@@ -5,24 +5,17 @@ defmodule Aoc2021.Day01 do
     |> Enum.map(&String.to_integer/1)
   end
 
-  defp reduce(el, {prev, acc}) when el > prev, do: {el, acc + 1}
-  defp reduce(el, {_, acc}), do: {el, acc}
-
   def part1(file \\ "./inputs/day01.txt") do
-    {_, count} =
-      parse(file)
-      |> Enum.reduce({0, 0}, &reduce/2)
-
-    count - 1
+    parse(file)
+    |> Stream.chunk_every(2, 1, :discard)
+    |> Enum.count(fn [a, b] -> b > a end)
   end
 
   def part2(file \\ "./inputs/day01.txt") do
-    {_, count} =
-      parse(file)
-      |> Enum.chunk_every(3, 1)
-      |> Enum.map(&Enum.sum/1)
-      |> Enum.reduce({0, 0}, &reduce/2)
-
-    count - 1
+    parse(file)
+    |> Enum.chunk_every(3, 1)
+    |> Enum.map(&Enum.sum/1)
+    |> Stream.chunk_every(2, 1, :discard)
+    |> Enum.count(fn [a, b] -> b > a end)
   end
 end
