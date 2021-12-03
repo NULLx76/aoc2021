@@ -21,9 +21,9 @@ defmodule Aoc2021.Day02 do
 
   def move_p2(_, pos \\ {0, 0, 0})
   def move_p2([], {x, y, _}), do: x * y
-  def move_p2([{"forward", amount} | tail], {x, y, aim}), do: move_p2(tail, {x + amount, y + (amount * aim), aim})
-  def move_p2([{"up", amount} | tail], {x, y, aim}), do: move_p2(tail, {x, y, aim-amount})
-  def move_p2([{"down", amount} | tail], {x, y, aim}), do: move_p2(tail, {x, y, aim+amount})
+  def move_p2([{"forward", amount} | tail], {x, y, aim}), do: move_p2(tail, {x + amount, y + amount * aim, aim})
+  def move_p2([{"up", amount} | tail], {x, y, aim}), do: move_p2(tail, {x, y, aim - amount})
+  def move_p2([{"down", amount} | tail], {x, y, aim}), do: move_p2(tail, {x, y, aim + amount})
 
   def part2(file \\ "./inputs/day02.txt") do
     parse(file)
