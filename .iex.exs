@@ -1,1 +1,1 @@
-alias Aoc2021.{Day01, Day02}
+alias Aoc2021.{Day01, Day02, Day03}

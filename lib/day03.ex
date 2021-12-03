@@ -1,6 +1,4 @@
 defmodule Aoc2021.Day03 do
-  import Nx.Defn
-
   defp parse(file) do
     File.read!(file)
     |> String.split("\n", trim: true)
@@ -19,16 +17,11 @@ defmodule Aoc2021.Day03 do
     end)
   end
 
-  defn nx_find_most_common(t) do
-    t
-    |> Nx.mean(axes: [0])
-    |> Nx.round()
-  end
-
   def find_most_common(input) do
     input
     |> Nx.tensor()
-    |> nx_find_most_common
+    |> Nx.mean(axes: [0])
+    |> Nx.round()
     |> Nx.to_flat_list()
     |> Enum.map(&trunc/1)
   end
@@ -43,48 +36,21 @@ defmodule Aoc2021.Day03 do
     |> Enum.reduce(&(&1 * &2))
   end
 
-  def oxygen(_, [x], _), do: x
-  def oxygen(common, input, pos) do
-    step =
-      input
-      |> Enum.reduce([], fn el, acc ->
-        if Enum.at(el, pos) == Enum.at(common, pos) do
-          [el | acc]
-        else
-          acc
-        end
-      end)
+  def life_support(_, _, _ \\ 0)
+  def life_support([x], _, _), do: Integer.undigits(x, 2)
 
-    oxygen(find_most_common(step), step, pos + 1)
-  end
+  def life_support(input, type, pos) do
+    common = find_most_common(input)
 
-  def scrubber(_, [x], _), do: x
-  def scrubber(common, input, pos) do
-    step =
-      input
-      |> Enum.reduce([], fn el, acc ->
-        if Enum.at(el, pos) != Enum.at(common, pos) do
-          [el | acc]
-        else
-          acc
-        end
-      end)
-
-    scrubber(find_most_common(step), step, pos + 1)
+    Enum.filter(input, fn el ->
+      match = Enum.at(el, pos) == Enum.at(common, pos)
+      if type == :oxygen, do: match, else: !match
+    end)
+    |> life_support(type, pos + 1)
   end
 
   def part2(file \\ "./inputs/day03.txt") do
     input = parse(file)
-    common = find_most_common(input)
-    # Oxygen
-    a =
-      oxygen(common, input, 0)
-      |> Integer.undigits(2)
-
-    b =
-      scrubber(common, input, 0)
-      |> Integer.undigits(2)
-
-    a * b
+    life_support(input, :oxygen) * life_support(input, :scrubber)
   end
 end
