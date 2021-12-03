@@ -1,4 +1,6 @@
 defmodule Aoc2021.Day03 do
+  @moduledoc false
+
   defp parse(file) do
     File.read!(file)
     |> String.split("\n", trim: true)
@@ -9,8 +11,7 @@ defmodule Aoc2021.Day03 do
     end)
   end
 
-  @spec flip([0 | 1]) :: [0 | 1]
-  def flip(n) do
+  defp flip(n) do
     Enum.map(n, fn
       1 -> 0
       0 -> 1
@@ -33,7 +34,7 @@ defmodule Aoc2021.Day03 do
 
     [num, flip(num)]
     |> Enum.map(&Integer.undigits(&1, 2))
-    |> Enum.reduce(&(&1 * &2))
+    |> then(fn [a, b] -> a * b end)
   end
 
   def life_support(_, _, _ \\ 0)

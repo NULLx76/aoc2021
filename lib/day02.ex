@@ -1,4 +1,6 @@
 defmodule Aoc2021.Day02 do
+  @moduledoc false
+
   defp parse(file) do
     File.read!(file)
     |> String.split("\n", trim: true)
