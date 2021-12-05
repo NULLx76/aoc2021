@@ -17,11 +17,7 @@ defmodule Aoc2021.Day05 do
     for x <- x1..x2, y <- y1..y2, do: {x, y}
   end
 
-  def gen_points({{x1, y1}, {x2, y2}}) do
-    xs = x1..x2//if(x1 < x2, do: 1, else: -1)
-    ys = y1..y2//if(y1 < y2, do: 1, else: -1)
-    Enum.zip(xs, ys)
-  end
+  def gen_points({{x1, y1}, {x2, y2}}), do: Enum.zip(x1..x2, y1..y2)
 
   def count_crossings(coords) do
     coords
