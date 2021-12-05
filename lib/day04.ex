@@ -72,7 +72,6 @@ defmodule Aoc2021.Day04 do
     step1(nums, boards)
   end
 
-
   def step2([x | xs], boards) do
     boards =
       boards
@@ -87,12 +86,12 @@ defmodule Aoc2021.Day04 do
       |> Enum.reject(&has_won?/1)
 
     case boards do
-      [b] -> calculate_score(b, x)
+      [b] -> step1(xs, [b])
       bs-> step2(xs, bs)
     end
   end
 
-  def part2(file \\ "./inputs/day04_example.txt") do
+  def part2(file \\ "./inputs/day04.txt") do
     {nums, boards} = parse(file)
     step2(nums, boards)
   end
