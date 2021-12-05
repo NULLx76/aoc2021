@@ -25,8 +25,7 @@ defmodule Aoc2021.Day05 do
 
   def count_crossings(coords) do
     coords
-    |> Enum.map(&gen_points/1)
-    |> Enum.flat_map(& &1)
+    |> Enum.flat_map(&gen_points/1)
     |> Enum.frequencies()
     |> Enum.filter(fn {_, f} -> f > 1 end)
     |> Enum.count()
@@ -34,9 +33,7 @@ defmodule Aoc2021.Day05 do
 
   def part1(file \\ "./inputs/day05.txt") do
     parse(file)
-    |> Enum.filter(fn {{x1, y1}, {x2, y2}} ->
-      x1 == x2 or y1 == y2
-    end)
+    |> Enum.filter(fn {{x1, y1}, {x2, y2}} -> x1 == x2 or y1 == y2 end)
     |> count_crossings()
   end
 

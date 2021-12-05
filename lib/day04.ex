@@ -87,7 +87,7 @@ defmodule Aoc2021.Day04 do
 
     case boards do
       [b] -> step1(xs, [b])
-      bs-> step2(xs, bs)
+      bs -> step2(xs, bs)
     end
   end
 
