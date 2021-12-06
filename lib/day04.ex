@@ -30,40 +30,38 @@ defmodule Aoc2021.Day04 do
     |> Enum.map(&Tuple.to_list/1)
   end
 
-  defp helper_has_won?(board) do
-    Enum.any?(board, fn row ->
-      Enum.all?(row, fn {_, b} -> b end)
-    end)
+  def has_won?(board) do
+    helper = fn board -> Enum.any?(board, &Enum.all?(&1, fn {_, b} -> b end)) end
+    helper.(board) or transpose(board) |> helper.()
   end
 
-  def has_won?(board), do: helper_has_won?(board) or helper_has_won?(transpose(board))
-
   def calculate_score(board, num) do
-    Enum.reduce(board, 0, fn row, acc ->
-      Enum.filter(row, fn {_, b} -> !b end)
-      |> Enum.map(fn {a, _} -> a end)
-      |> Enum.sum()
-      |> then(&(&1 + acc))
-    end)
+    board
+    |> List.flatten()
+    |> Enum.filter(fn {_, b} -> !b end)
+    |> Enum.map(fn {a, _} -> a end)
+    |> Enum.sum()
     |> then(&(&1 * num))
   end
 
-  def step1([x | xs], boards) do
-    boards =
-      boards
-      |> Enum.map(
-        &Enum.map(&1, fn row ->
-          Enum.map(row, fn
-            {^x, _} -> {x, true}
-            c -> c
-          end)
+  def tick_numbers(boards, x) do
+    Enum.map(
+      boards,
+      &Enum.map(&1, fn row ->
+        Enum.map(row, fn
+          {^x, _} -> {x, true}
+          c -> c
         end)
-      )
+      end)
+    )
+  end
 
-    if win = Enum.find(boards, nil, &has_won?/1) do
-      calculate_score(win, x)
-    else
-      step1(xs, boards)
+  def step1([x | xs], boards) do
+    boards = tick_numbers(boards, x)
+
+    case Enum.find(boards, nil, &has_won?/1) do
+      nil -> step1(xs, boards)
+      win -> calculate_score(win, x)
     end
   end
 
@@ -74,15 +72,7 @@ defmodule Aoc2021.Day04 do
 
   def step2([x | xs], boards) do
     boards =
-      boards
-      |> Enum.map(
-        &Enum.map(&1, fn row ->
-          Enum.map(row, fn
-            {^x, _} -> {x, true}
-            c -> c
-          end)
-        end)
-      )
+      tick_numbers(boards, x)
       |> Enum.reject(&has_won?/1)
 
     case boards do
