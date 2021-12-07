@@ -14,7 +14,7 @@ defmodule Aoc2021.Day06 do
     Enum.reduce(fish, %{}, fn
       {0, num}, acc ->
         Map.put(acc, 8, num)
-        |> Map.update(6, num, &(&1 + num))
+        |> Map.update(6, num, fn _ -> num end)
 
       {t, num}, acc ->
         Map.update(acc, t - 1, num, &(&1 + num))
