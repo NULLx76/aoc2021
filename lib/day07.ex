@@ -12,6 +12,11 @@ defmodule Aoc2021.Day07 do
     Enum.at(list, index)
   end
 
+  def get_average(list) do
+    Enum.sum(list)
+    |> div(length(list))
+  end
+
   def calculate_cost_p1(list, pos) do
     Enum.map(list, &abs(&1 - pos))
     |> Enum.sum()
@@ -31,17 +36,25 @@ defmodule Aoc2021.Day07 do
     |> Enum.sum()
   end
 
-  def step(list, pos, dx, curr_cost) do
-    next = calculate_cost_p2(list, pos + dx)
+  def part2(file \\ "./inputs/day07.txt") do
+    list = parse(file)
+    avg = get_average(list)
 
-    if curr_cost < next do
-      curr_cost
-    else
-      step(list, pos + dx, dx, next)
-    end
+    calculate_cost_p2(list, avg)
+    |> min(calculate_cost_p2(list, avg + 1))
+    |> min(calculate_cost_p2(list, avg - 1))
   end
 
-  def part2(file \\ "./inputs/day07.txt") do
+  def gradient(list, pos, dx, curr_cost) do
+    next = calculate_cost_p2(list, pos + dx)
+    if curr_cost < next, do: curr_cost, else: gradient(list, pos + dx, dx, next)
+  end
+
+  @doc """
+  This is my orginal solution for part2 that instead of just taking the average
+  uses the median as a starting point for doing gradient descent
+  """
+  def part2_gradient(file \\ "./inputs/day07.txt") do
     list = Enum.sort(parse(file))
     median = get_median(list)
 
@@ -49,14 +62,10 @@ defmodule Aoc2021.Day07 do
     left = calculate_cost_p2(list, median - 1)
     right = calculate_cost_p2(list, median + 1)
 
-    if curr < min(left, right) do
-      curr
-    else
-      if left < right do
-        step(list, median - 1, -1, left)
-      else
-        step(list, median + 1, +1, right)
-      end
+    cond do
+      curr < min(left, right) -> curr
+      left < right -> gradient(list, median - 1, -1, left)
+      right < left -> gradient(list, median + 1, +1, right)
     end
   end
 end

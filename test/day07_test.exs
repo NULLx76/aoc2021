@@ -9,5 +9,6 @@ defmodule Day07Test do
 
   test "part2" do
     assert part2() == 104822130
+    assert part2_gradient() == 104822130
   end
 end
