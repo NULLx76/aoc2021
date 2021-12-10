@@ -11,4 +11,3 @@ defmodule Day05Test do
     assert part2() == 22083
   end
 end
-

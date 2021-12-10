@@ -4,10 +4,10 @@ defmodule Day06Test do
   import Aoc2021.Day06
 
   test "part1" do
-    assert part1() == 375482
+    assert part1() == 375_482
   end
 
   test "part2" do
-    assert part2() == 1689540415957
+    assert part2() == 1_689_540_415_957
   end
 end

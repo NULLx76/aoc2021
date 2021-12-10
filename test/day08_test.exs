@@ -8,6 +8,6 @@ defmodule Day08Test do
   end
 
   test "part2" do
-    assert part2() == 940724
+    assert part2() == 940_724
   end
 end

@@ -9,7 +9,7 @@ defmodule Aoc2021.Day08 do
       |> Enum.map(fn part ->
         String.split(part)
         |> Enum.map(&String.to_charlist/1)
-       end)
+      end)
       |> List.to_tuple()
     end)
   end
