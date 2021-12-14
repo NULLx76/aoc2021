@@ -9,7 +9,9 @@ defmodule Aoc2021.Day14 do
       |> String.graphemes()
       |> Enum.chunk_every(2, 1, :discard)
       |> Enum.map(&List.to_tuple/1)
-      |> Enum.frequencies()
+
+    # Save the first element for later
+    fst = poly |> hd() |> elem(0)
 
     rules =
       rules
@@ -19,7 +21,7 @@ defmodule Aoc2021.Day14 do
         {String.graphemes(l) |> List.to_tuple(), r}
       end)
 
-    {poly, rules}
+    {Enum.frequencies(poly), rules, fst}
   end
 
   def step(poly, _, 0), do: poly
@@ -28,6 +30,7 @@ defmodule Aoc2021.Day14 do
     Enum.reduce(poly, %{}, fn
       {{l, r} = pair, x}, acc when is_map_key(rules, pair) ->
         c = rules[pair]
+
         Map.update(acc, {l, c}, x, &(&1 + x))
         |> Map.update({c, r}, x, &(&1 + x))
 
@@ -37,25 +40,25 @@ defmodule Aoc2021.Day14 do
     |> step(rules, count - 1)
   end
 
-  defp calc_answer(poly) do
+  defp calc_answer(poly, fst) do
     Enum.reduce(poly, %{}, fn {{_, r}, n}, acc ->
       Map.update(acc, r, n, &(&1 + n))
     end)
-    |> Enum.map(&elem(&1, 1))
+    |> Map.update!(fst, &(&1 + 1))
+    |> Map.values()
     |> Enum.min_max()
     |> then(fn {min, max} -> max - min end)
-    |> then(&(&1 - 1))
   end
 
   def part1(file \\ "./inputs/day14.txt") do
-    parse(file)
-    |> then(fn {poly, rules} -> step(poly, rules, 10) end)
-    |> calc_answer()
+    {poly, rules, fst} = parse(file)
+    step(poly, rules, 10)
+    |> calc_answer(fst)
   end
 
   def part2(file \\ "./inputs/day14.txt") do
-    parse(file)
-    |> then(fn {poly, rules} -> step(poly, rules, 40) end)
-    |> calc_answer()
+    {poly, rules, fst} = parse(file)
+    step(poly, rules, 40)
+    |> calc_answer(fst)
   end
 end
