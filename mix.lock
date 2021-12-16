@@ -5,5 +5,6 @@
   "file_system": {:hex, :file_system, "0.2.10", "fb082005a9cd1711c05b5248710f8826b02d7d1784e7c3451f9c1231d4fc162d", [:mix], [], "hexpm", "41195edbfb562a593726eda3b3e8b103a309b733ad25f3d642ba49696bf715dc"},
   "iteraptor": {:hex, :iteraptor, "1.13.1", "1989d480b36f1888230396ef39cdaac987fa05cd0fe7e289cfaa61c469120e5e", [:mix], [], "hexpm", "a7f23f2d8d9ac79936845cbbd2e44bf4f5c726affb3a380099f192856143a258"},
   "jason": {:hex, :jason, "1.2.2", "ba43e3f2709fd1aa1dce90aaabfd039d000469c05c56f0b8e31978e03fa39052", [:mix], [{:decimal, "~> 1.0 or ~> 2.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm", "18a228f5f0058ee183f29f9eae0805c6e59d61c3b006760668d8d18ff0d12179"},
+  "libgraph": {:hex, :libgraph, "0.13.3", "20732b7bafb933dcf7351c479e03076ebd14a85fd3202c67a1c197f4f7c2466b", [:mix], [], "hexpm", "78f2576eef615440b46f10060b1de1c86640441422832052686df53dc3c148c6"},
   "nx": {:git, "https://github.com/elixir-nx/nx.git", "e23a678bf0ebcbbafe03f1b5ed78623f052ad486", [branch: "main", sparse: "nx"]},
 }

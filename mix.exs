@@ -23,7 +23,8 @@ defmodule Aoc2021.MixProject do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:nx, "~> 0.1.0-dev", github: "elixir-nx/nx", branch: "main", sparse: "nx"},
-      {:erqwest, "~> 0.1.0"}
+      {:erqwest, "~> 0.1.0"},
+      {:libgraph, "~> 0.13.3"}
     ]
   end
 end
